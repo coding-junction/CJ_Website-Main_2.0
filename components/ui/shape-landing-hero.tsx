@@ -1,77 +1,12 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { motion, Variants } from "motion/react";
-import { Circle } from "lucide-react";
+import { Circle, Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
 
-
-function ElegantShape({
-    className,
-    delay = 0,
-    width = 400,
-    height = 100,
-    rotate = 0,
-    gradient = "from-white/[0.08]",
-}: {
-    className?: string;
-    delay?: number;
-    width?: number;
-    height?: number;
-    rotate?: number;
-    gradient?: string;
-}) {
-    return (
-        <motion.div
-            initial={{
-                opacity: 0,
-                y: -150,
-                rotate: rotate - 15,
-            }}
-            animate={{
-                opacity: 1,
-                y: 0,
-                rotate: rotate,
-            }}
-            transition={{
-                duration: 2.4,
-                delay,
-                ease: [0.23, 0.86, 0.39, 0.96],
-                opacity: { duration: 1.2 },
-            }}
-            className={cn("absolute", className)}
-        >
-            <motion.div
-                animate={{
-                    y: [0, 15, 0],
-                }}
-                transition={{
-                    duration: 12,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                }}
-                style={{
-                    width,
-                    height,
-                }}
-                className="relative"
-            >
-                <div
-                    className={cn(
-                        "absolute inset-0 rounded-full",
-                        "bg-gradient-to-r to-transparent",
-                        gradient,
-                        "backdrop-blur-[2px] border-2 border-black/[0.08] dark:border-white/[0.15]",
-                        "shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_0_rgba(255,255,255,0.1)]",
-                        "after:absolute after:inset-0 after:rounded-full",
-                        "after:bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.05),transparent_70%)] dark:after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]"
-                    )}
-                />
-            </motion.div>
-        </motion.div>
-    );
-}
 
 function HeroGeometric({
     badge = "Design Collective",
@@ -95,56 +30,33 @@ function HeroGeometric({
         }),
     };
     const router = useRouter();
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isMuted, setIsMuted] = useState(true);
+
+    const toggleMute = () => {
+        if (videoRef.current) {
+            videoRef.current.muted = !videoRef.current.muted;
+            setIsMuted(!isMuted);
+        }
+    };
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-[#030303] transition-colors duration-300">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.1] dark:from-indigo-500/[0.05] via-transparent to-rose-500/[0.1] dark:to-rose-500/[0.05] blur-3xl" />
-
-            <div className="absolute inset-0 overflow-hidden">
-                <ElegantShape
-                    delay={0.3}
-                    width={600}
-                    height={140}
-                    rotate={12}
-                    gradient="from-indigo-500/[0.25] dark:from-indigo-500/[0.15]"
-                    className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-                />
-
-                <ElegantShape
-                    delay={0.5}
-                    width={500}
-                    height={120}
-                    rotate={-15}
-                    gradient="from-rose-500/[0.25] dark:from-rose-500/[0.15]"
-                    className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
-                />
-
-                <ElegantShape
-                    delay={0.4}
-                    width={300}
-                    height={80}
-                    rotate={-8}
-                    gradient="from-violet-500/[0.25] dark:from-violet-500/[0.15]"
-                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-                />
-
-                <ElegantShape
-                    delay={0.6}
-                    width={200}
-                    height={60}
-                    rotate={20}
-                    gradient="from-amber-500/[0.25] dark:from-amber-500/[0.15]"
-                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-                />
-
-                <ElegantShape
-                    delay={0.7}
-                    width={150}
-                    height={40}
-                    rotate={-25}
-                    gradient="from-cyan-500/[0.25] dark:from-cyan-500/[0.15]"
-                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-                />
+        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+            {/* Video Background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover"
+                >
+                    <source src="/hero-bg.mp4" type="video/mp4" />
+                </video>
             </div>
+
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/50 pointer-events-none" />
 
             <div className="relative z-10 container mx-auto px-4 md:px-6">
                 <div className="max-w-3xl mx-auto text-center">
@@ -153,10 +65,10 @@ function HeroGeometric({
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/[0.03] border-black/[0.08] dark:bg-white/[0.03] border dark:border-white/[0.08] mb-8 md:mb-12"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
                     >
                         <Circle className="h-2 w-2 fill-rose-500/80" />
-                        <span className="text-sm text-black/60 dark:text-white/60 tracking-wide">
+                        <span className="text-sm text-white/60 tracking-wide">
                             {badge}
                         </span>
                     </motion.div>
@@ -168,13 +80,13 @@ function HeroGeometric({
                         animate="visible"
                     >
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black to-black/80 dark:from-white dark:to-white/80">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
                             <br />
                             <span
                                 className={cn(
-                                    "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-black/90 to-rose-500 dark:from-indigo-300 dark:via-white/90 dark:to-rose-300 "
+                                    "bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300"
                                 )}
                             >
                                 {title2}
@@ -188,7 +100,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-base sm:text-lg md:text-xl text-black/60 dark:text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+                        <p className="text-base sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
                             University Institute Of Technology, Bardhaman
                         </p>
                     </motion.div>
@@ -196,7 +108,17 @@ function HeroGeometric({
                 </div>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/80 dark:from-[#030303] dark:via-transparent dark:to-[#030303]/80 pointer-events-none" />
+            {/* Subtle gradient edges for blending */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80 pointer-events-none" />
+
+            {/* Mute/Unmute Toggle */}
+            <button
+                onClick={toggleMute}
+                className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 cursor-pointer"
+                aria-label={isMuted ? "Unmute video" : "Mute video"}
+            >
+                {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+            </button>
         </div>
     );
 }
