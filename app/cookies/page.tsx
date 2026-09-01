@@ -220,7 +220,7 @@ export default function CookieSettings() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="mb-12 rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02] p-6 md:p-8"
+            className="mb-12 rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02] p-6 md:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-gray-500 to-gray-600 flex items-center justify-center shadow-lg shadow-gray-500/20">
@@ -354,7 +354,7 @@ export default function CookieSettings() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row gap-3 mb-16 p-5 rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02]"
+            className="flex flex-col sm:flex-row gap-3 mb-16 p-5 rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02]"
           >
             <button
               onClick={savePreferences}
@@ -391,7 +391,7 @@ export default function CookieSettings() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02] p-6 md:p-8"
+              className="rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02] p-6 md:p-8"
             >
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
@@ -426,7 +426,7 @@ export default function CookieSettings() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02] p-6 md:p-8"
+              className="rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02] p-6 md:p-8"
             >
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20">

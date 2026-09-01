@@ -24,7 +24,7 @@ function TeamLoading() {
 
 export default function TeamPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-neutral-800">
+    <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1 flex flex-col">
         <Suspense fallback={<TeamLoading />}>
           <TeamClient />

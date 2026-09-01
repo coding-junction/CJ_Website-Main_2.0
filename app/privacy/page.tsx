@@ -303,7 +303,7 @@ function PolicyCard({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
-      className="scroll-mt-8 rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02] p-6 md:p-8 transition-all duration-300 hover:border-gray-300 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-none"
+      className="scroll-mt-8 rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02] p-6 md:p-8 transition-all duration-300 hover:border-black/[0.15] dark:hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/[0.02]"
     >
       <div className="flex items-center gap-3 mb-5">
         <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${colorMap[color]} flex items-center justify-center shadow-lg`}>

@@ -96,7 +96,7 @@ export default function Loading() {
             <span className="w-10 h-[1px] bg-gradient-to-r from-transparent to-cyan-500 dark:to-cyan-400" />
             <p
               className="text-xs font-bold tracking-[0.35em] text-gray-500 dark:text-gray-400 uppercase"
-              style={{ animation: 'fade-pulse 2s ease-in-out infinite' }}
+              style={{ animation: 'fade-pulse 2s ease-in-out infinite, shimmer 3s ease-in-out infinite' }}
             >
               Coding Junction
             </p>
@@ -116,14 +116,18 @@ export default function Loading() {
       {/* Keyframe definitions */}
       <style>{`
         @keyframes trace-draw {
-          0% { stroke-dashoffset: var(--dash-start, 2000); opacity: 0; }
-          20% { opacity: 1; }
-          80% { opacity: 1; }
+          0% { stroke-dashoffset: 2000; opacity: 0; }
+          15% { opacity: 1; }
+          85% { opacity: 1; }
           100% { stroke-dashoffset: 0; opacity: 0.9; }
         }
         @keyframes fade-pulse {
           0%, 100% { opacity: 0.5; }
           50% { opacity: 1; }
+        }
+        @keyframes shimmer {
+          0%, 100% { letter-spacing: 0.35em; }
+          50% { letter-spacing: 0.4em; }
         }
         @keyframes scan-bar {
           0% { width: 0%; margin-left: 0%; }

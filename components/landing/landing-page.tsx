@@ -9,14 +9,21 @@ import UpcomingEvent from "@/components/landing/upcoming-events";
 
 export default function Landing() {
   return (
-    <>
+    <div className="relative">
         <Header />
-        <UpcomingEvent />
-        <Overview/>
-        <Domains />
-        <Testimonial/>
-        <CommunityPartnersClient />
-        <About/>
-    </>
+        <div className="relative z-10">
+          <UpcomingEvent />
+          <div className="section-divider" />
+          <Overview />
+          <div className="section-divider" />
+          <Domains />
+          <div className="section-divider" />
+          <Testimonial />
+          <div className="section-divider" />
+          <CommunityPartnersClient />
+          <div className="section-divider" />
+          <About />
+        </div>
+    </div>
   );
 }

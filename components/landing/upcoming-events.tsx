@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
 import Image from "next/image";
 import { sanity } from "@/lib/sanity";
+import { motion } from "motion/react";
+import { CalendarDays, MapPin, ArrowRight, Sparkles } from "lucide-react";
 
 interface EventType {
   _id: string;
@@ -49,78 +50,141 @@ const Event = () => {
   }, []);
 
   return (
-    <section className="w-full px-4 md:px-8 lg:px-16 xl:px-20 py-20 flex flex-col items-center bg-background dark:bg-background relative overflow-hidden">
-      {/* Animated Decorative Blobs */}
-      <div className="absolute -top-24 -left-24 w-80 h-80 bg-gradient-to-br from-blue-300 via-blue-200 to-transparent dark:from-blue-900 dark:via-blue-800 rounded-full opacity-30 blur-3xl pointer-events-none z-0 animate-pulse" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-gradient-to-tr from-blue-400 via-blue-200 to-transparent dark:from-blue-700 dark:via-blue-900 rounded-full opacity-20 blur-3xl pointer-events-none z-0 animate-pulse" />
+    <section className="w-full px-4 md:px-8 lg:px-16 xl:px-20 py-16 md:py-24 relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-indigo-500/5 dark:from-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-      <h2 className="text-center text-5xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-400 to-pink-400 dark:from-blue-200 dark:via-blue-400 dark:to-pink-300 tracking-tight z-10 drop-shadow-xl">
-        Upcoming Event
-      </h2>
-      <p className="text-xl md:text-2xl text-blue-700 dark:text-blue-200 mb-12 max-w-2xl text-center z-10 font-medium">
-        Don’t miss out on our next big gathering!<br className="hidden md:block" />
-        <span className="text-pink-500 dark:text-pink-300 font-bold">Unforgettable moments await.</span>
-      </p>
-      <div className="flex flex-wrap gap-8 justify-center w-full z-10">
+      {/* Section Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+        className="text-center mb-12 md:mb-16 relative z-10"
+      >
+        <p className="text-sm uppercase tracking-[0.2em] text-indigo-400 mb-3 font-medium">
+          What&apos;s Next
+        </p>
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground dark:text-white">
+          Upcoming{" "}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400">
+            Events
+          </span>
+        </h2>
+        <p className="mt-4 text-sm md:text-base text-muted-foreground max-w-lg mx-auto">
+          Stay updated with our next big gathering. Unforgettable moments await.
+        </p>
+      </motion.div>
+
+      <div className="flex flex-wrap gap-8 justify-center w-full relative z-10">
         {loading && (
-          <div className="text-center text-blue-400">Loading events...</div>
+          <div className="flex flex-col items-center gap-4 py-16">
+            <div className="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+            <p className="text-sm text-muted-foreground">Loading events...</p>
+          </div>
         )}
         {!loading && events.length === 0 && (
-          <div className="text-center text-blue-400">No events found.</div>
-        )}
-        {events.map((event) => (
-          <BackgroundGradient
-            key={event._id}
-            className="rounded-3xl max-w-xl w-full p-0 bg-transparent shadow-none"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16 max-w-md"
           >
-            <div className="bg-white/90 dark:bg-zinc-900/90 rounded-3xl shadow-2xl p-8 sm:p-14 flex flex-col items-center relative overflow-hidden">
-              {/* Animated Sparkles */}
-              <div className="absolute top-4 right-8 text-yellow-400 text-3xl animate-bounce">✨</div>
-              <div className="absolute bottom-4 left-8 text-pink-400 text-2xl animate-pulse">★</div>
-              <div className="absolute top-8 left-1/2 -translate-x-1/2 text-blue-400 text-2xl animate-spin-slow">✦</div>
-              {event.image?.asset?.url ? (
-                <Image
-                  src={event.image.asset.url}
-                  alt={event.title}
-                  height={340}
-                  width={340}
-                  className="object-cover rounded-2xl shadow-2xl mb-6 w-full max-w-xs border-4 border-blue-100 dark:border-blue-900 transition-transform duration-300 hover:scale-105"
-                />
-              ) : (
-                <div className="w-full max-w-xs h-[220px] flex items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-2xl mb-6 text-blue-400 dark:text-blue-200 text-lg font-semibold">
-                  No Image Available
-                </div>
-              )}
-              {event.tag && (
-                <span className="inline-block bg-gradient-to-r from-blue-100 via-blue-300 to-pink-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-semibold px-5 py-2 rounded-full mb-4 shadow-lg tracking-wider uppercase">
-                  {event.tag}
-                </span>
-              )}
-              <h3 className="text-2xl md:text-3xl font-bold text-blue-900 dark:text-white mb-2 tracking-tight text-center">
-                {event.title}
-              </h3>
-              <p className="text-base md:text-lg text-neutral-700 dark:text-neutral-300 mb-8 text-center">
-                {event.description}
-              </p>
-              {event.registerLink ? (
-                <a
-                  href={event.registerLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full px-10 py-4 text-white bg-gradient-to-r from-blue-600 via-pink-400 to-blue-600 dark:from-blue-800 dark:via-pink-500 dark:to-blue-600 font-bold shadow-xl hover:scale-105 hover:from-pink-500 hover:to-blue-500 transition-all duration-200 text-lg tracking-wide flex items-center gap-2"
-                >
-                  <span className="animate-bounce">🚀</span> Register Now
-                </a>
-              ) : (
-                <button
-                  disabled
-                  className="rounded-full px-10 py-4 text-white bg-gray-400 dark:bg-gray-700 font-bold shadow-xl text-lg tracking-wide flex items-center gap-2 opacity-60 cursor-not-allowed"
-                >
-                  Registration Closed
-                </button>
-              )}
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-violet-500/10 dark:from-indigo-500/20 dark:to-violet-500/20 flex items-center justify-center mx-auto mb-5">
+              <Sparkles className="h-7 w-7 text-indigo-400" />
             </div>
-          </BackgroundGradient>
+            <p className="text-foreground dark:text-white font-semibold text-lg mb-2">No upcoming events</p>
+            <p className="text-sm text-muted-foreground">Check back soon for new announcements and exciting events!</p>
+          </motion.div>
+        )}
+        {events.map((event, index) => (
+          <motion.div
+            key={event._id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="w-full max-w-xl"
+          >
+            <div className="glass-card group">
+              <div className="glass-card-inner p-8 sm:p-10 flex flex-col items-center">
+                {/* Event image */}
+                {event.image?.asset?.url ? (
+                  <div className="relative w-full max-w-sm rounded-xl overflow-hidden mb-6">
+                    <Image
+                      src={event.image.asset.url}
+                      alt={event.title}
+                      height={340}
+                      width={340}
+                      className="object-cover rounded-xl w-full border border-black/5 dark:border-white/10 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full max-w-sm h-[200px] flex items-center justify-center bg-gray-100 dark:bg-white/5 rounded-xl mb-6 border border-border">
+                    <CalendarDays className="h-10 w-10 text-muted-foreground" />
+                  </div>
+                )}
+
+                {/* Tag */}
+                {event.tag && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase bg-indigo-100 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 mb-4">
+                    {event.tag}
+                  </span>
+                )}
+
+                {/* Title */}
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground dark:text-white mb-2 tracking-tight text-center">
+                  {event.title}
+                </h3>
+
+                {/* Meta info */}
+                {(event.date || event.location) && (
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                    {event.date && (
+                      <span className="flex items-center gap-1.5">
+                        <CalendarDays className="h-3.5 w-3.5" />
+                        {new Date(event.date).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    )}
+                    {event.location && (
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5" />
+                        {event.location}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Description */}
+                <p className="text-sm md:text-base text-muted-foreground mb-8 text-center leading-relaxed max-w-md">
+                  {event.description}
+                </p>
+
+                {/* CTA */}
+                {event.registerLink ? (
+                  <a
+                    href={event.registerLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/btn inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:from-indigo-500 hover:to-violet-500 transition-all duration-300"
+                  >
+                    Register Now
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gray-200 dark:bg-white/10 text-muted-foreground font-semibold text-sm cursor-not-allowed"
+                  >
+                    Registration Closed
+                  </button>
+                )}
+              </div>
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>

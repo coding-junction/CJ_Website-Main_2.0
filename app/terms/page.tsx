@@ -5,7 +5,9 @@ import Link from "next/link";
 import {
   FileText, ArrowLeft, UserCheck, ShieldAlert, Trophy, Scale,
   Users, AlertTriangle, RefreshCw, Gavel, Mail, Handshake,
+  Heart, Lightbulb, Target, Sprout,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 const sections = [
   { id: "acceptance", label: "Acceptance of Terms" },
@@ -30,11 +32,11 @@ const fadeUp = {
   }),
 };
 
-const communityValues = [
-  { emoji: "🤝", title: "Respect", description: "Treat all members with kindness and respect, regardless of skill level, background, or experience.", color: "from-blue-500/10 to-blue-500/5 border-blue-500/20 dark:from-blue-500/20 dark:to-blue-500/10 dark:border-blue-500/30" },
-  { emoji: "💡", title: "Collaboration", description: "Share knowledge freely, help fellow members grow, and contribute positively to the community.", color: "from-amber-500/10 to-amber-500/5 border-amber-500/20 dark:from-amber-500/20 dark:to-amber-500/10 dark:border-amber-500/30" },
-  { emoji: "🎯", title: "Integrity", description: "Be honest in your work, give credit where it's due, and maintain academic integrity.", color: "from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 dark:from-emerald-500/20 dark:to-emerald-500/10 dark:border-emerald-500/30" },
-  { emoji: "🌱", title: "Growth", description: "Embrace learning, accept constructive feedback, and strive for continuous improvement.", color: "from-violet-500/10 to-violet-500/5 border-violet-500/20 dark:from-violet-500/20 dark:to-violet-500/10 dark:border-violet-500/30" },
+const communityValues: { icon: LucideIcon; title: string; description: string; color: string; iconColor: string }[] = [
+  { icon: Heart, title: "Respect", description: "Treat all members with kindness and respect, regardless of skill level, background, or experience.", color: "from-blue-500/10 to-blue-500/5 border-blue-500/20 dark:from-blue-500/20 dark:to-blue-500/10 dark:border-blue-500/30", iconColor: "text-blue-500" },
+  { icon: Lightbulb, title: "Collaboration", description: "Share knowledge freely, help fellow members grow, and contribute positively to the community.", color: "from-amber-500/10 to-amber-500/5 border-amber-500/20 dark:from-amber-500/20 dark:to-amber-500/10 dark:border-amber-500/30", iconColor: "text-amber-500" },
+  { icon: Target, title: "Integrity", description: "Be honest in your work, give credit where it's due, and maintain academic integrity.", color: "from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 dark:from-emerald-500/20 dark:to-emerald-500/10 dark:border-emerald-500/30", iconColor: "text-emerald-500" },
+  { icon: Sprout, title: "Growth", description: "Embrace learning, accept constructive feedback, and strive for continuous improvement.", color: "from-violet-500/10 to-violet-500/5 border-violet-500/20 dark:from-violet-500/20 dark:to-violet-500/10 dark:border-violet-500/30", iconColor: "text-violet-500" },
 ];
 
 export default function TermsOfService() {
@@ -204,13 +206,16 @@ export default function TermsOfService() {
             <TermsCard id="community" icon={Users} color="blue" index={6} title="Community Guidelines">
               <p>As a member of Coding Junction, you are expected to uphold our community values:</p>
               <div className="grid sm:grid-cols-2 gap-3 mt-4">
-                {communityValues.map((v) => (
-                  <div key={v.title} className={`p-4 rounded-xl bg-gradient-to-br border ${v.color} transition-all hover:scale-[1.02]`}>
-                    <span className="text-2xl">{v.emoji}</span>
-                    <p className="font-bold text-foreground text-sm mt-2">{v.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{v.description}</p>
-                  </div>
-                ))}
+                {communityValues.map((v) => {
+                  const ValIcon = v.icon;
+                  return (
+                    <div key={v.title} className={`p-4 rounded-xl bg-gradient-to-br border ${v.color} transition-all hover:scale-[1.02]`}>
+                      <ValIcon className={`h-6 w-6 ${v.iconColor}`} />
+                      <p className="font-bold text-foreground text-sm mt-2">{v.title}</p>
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{v.description}</p>
+                    </div>
+                  );
+                })}
               </div>
             </TermsCard>
 
@@ -295,7 +300,7 @@ function TermsCard({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
-      className="scroll-mt-8 rounded-2xl border border-border bg-gray-50/50 dark:bg-white/[0.02] p-6 md:p-8 transition-all duration-300 hover:border-gray-300 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-none"
+      className="scroll-mt-8 rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02] p-6 md:p-8 transition-all duration-300 hover:border-black/[0.15] dark:hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/[0.02]"
     >
       <div className="flex items-center gap-3 mb-5">
         <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${colorMap[color]} flex items-center justify-center shadow-lg`}>

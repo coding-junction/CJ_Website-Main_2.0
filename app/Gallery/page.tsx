@@ -18,12 +18,11 @@ const images = [
   "/Assets/Images/cj8.jpg",
 ];
 
-// Responsive image width and margin
 const getImageWidth = () => {
   if (typeof window === "undefined") return 600 + 48;
-  if (window.innerWidth < 640) return 320 + 24; // mobile: 320px + 2*mx-3
-  if (window.innerWidth < 1024) return 480 + 32; // tablet: 480px + 2*mx-4
-  return 600 + 48; // desktop: 600px + 2*mx-6
+  if (window.innerWidth < 640) return 320 + 24;
+  if (window.innerWidth < 1024) return 480 + 32;
+  return 600 + 48;
 };
 
 const Gallery = () => {
@@ -32,18 +31,16 @@ const Gallery = () => {
   const [offset, setOffset] = useState(0);
   const [imageWidth, setImageWidth] = useState(getImageWidth());
 
-  // Update image width on resize
   useEffect(() => {
     const handleResize = () => setImageWidth(getImageWidth());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Start animation
   useEffect(() => {
     if (!isPaused) {
       controls.start({
-        x: [offset, offset - (images.length * imageWidth)],
+        x: [offset, offset - images.length * imageWidth],
         transition: {
           repeat: Infinity,
           repeatType: "loop",
@@ -56,55 +53,92 @@ const Gallery = () => {
     }
   }, [isPaused, offset, controls, imageWidth]);
 
-  // When hover/tap, set offset so hovered image is first
   const handleMouseEnter = (idx: number) => {
     setIsPaused(true);
     setOffset(-idx * imageWidth);
     controls.set({ x: -idx * imageWidth });
   };
 
-  // On leave, resume animation from current offset
   const handleMouseLeave = () => {
     setIsPaused(false);
   };
 
-  // For mobile: handle tap to pause and focus image
   const handleTouch = (idx: number) => {
     handleMouseEnter(idx);
-    setTimeout(() => setIsPaused(false), 2000); // Resume after 2s
+    setTimeout(() => setIsPaused(false), 2000);
   };
 
   return (
-    <div className="w-full min-h-screen bg-white dark:bg-black transition-colors duration-300">
-      <div className="container mx-auto pt-32 pb-20 px-2 sm:px-4 md:px-8 lg:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Our <span className="text-primary">Gallery</span>
-          </h1>
-          <p className="text-gray-600 dark:text-white/70 max-w-2xl mx-auto text-base sm:text-lg">
-            Explore our collection of memorable moments and achievements
-          </p>
-        </motion.div>
+    <main className="min-h-screen bg-background text-foreground">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-pink-500/5 to-violet-500/10 dark:from-rose-500/20 dark:via-pink-500/10 dark:to-violet-500/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-rose-400/10 via-transparent to-transparent dark:from-rose-400/20" />
+        <div
+          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(244,63,94,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(244,63,94,0.8) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
 
-        <div className="flex justify-center">
-          <div className="overflow-hidden w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto rounded-xl border border-gray-200 dark:border-white/10 shadow-lg">
+        <div className="container mx-auto px-4 md:px-6 pt-32 pb-20 md:pt-40 md:pb-28 relative">
+          <div className="max-w-3xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl md:text-6xl font-bold tracking-tight mb-4"
+            >
+              Our{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-violet-500">
+                Gallery
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-muted-foreground text-base md:text-lg max-w-xl"
+            >
+              Explore our collection of memorable moments — from workshops and hackathons to community gatherings.
+            </motion.p>
+
             <motion.div
-              className="flex"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-6 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/60 dark:bg-white/5 border border-border backdrop-blur-sm"
+            >
+              <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+              <span className="text-xs text-muted-foreground">
+                <strong className="text-foreground">{images.length}</strong> photos in collection
+              </span>
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" className="w-full text-background">
+            <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" fill="currentColor" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Gallery Carousel */}
+      <div className="py-12 md:py-20">
+        <div className="flex justify-center">
+          <div className="overflow-hidden w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto rounded-2xl border border-black/[0.08] dark:border-white/[0.08] shadow-xl bg-white dark:bg-[#0a0a0f]">
+            <motion.div
+              className="flex py-4"
               style={{ width: "max-content" }}
               animate={controls}
             >
               {[...images, ...images].map((src, idx) => (
                 <motion.div
                   key={idx}
-                  className={`
-                    relative flex-shrink-0
-                    mx-3 sm:mx-4 lg:mx-6
-                  `}
+                  className="relative flex-shrink-0 mx-3 sm:mx-4 lg:mx-6"
                   style={{
                     width:
                       imageWidth === 320 + 24
@@ -120,9 +154,8 @@ const Gallery = () => {
                         : 340,
                   }}
                   whileHover={{
-                    scale: 1.08,
+                    scale: 1.06,
                     zIndex: 2,
-                    boxShadow: "0 8px 32px 0 rgba(0,0,0,0.45)",
                   }}
                   onMouseEnter={() => handleMouseEnter(idx % images.length)}
                   onMouseLeave={handleMouseLeave}
@@ -130,16 +163,19 @@ const Gallery = () => {
                 >
                   <Image
                     src={src}
-                    alt={`Gallery Image ${idx + 1}`}
+                    alt={`Gallery Image ${(idx % images.length) + 1}`}
                     fill
                     className="object-cover rounded-xl"
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 600px"
                     priority={idx === 0}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-6 rounded-xl">
-                    <p className="text-white text-xs sm:text-base md:text-xl font-medium text-center">
-                      Capturing our journey of innovation and collaboration
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-400 flex items-end justify-between p-4 sm:p-6 rounded-xl">
+                    <p className="text-white text-xs sm:text-sm font-medium">
+                      Photo {(idx % images.length) + 1} of {images.length}
                     </p>
+                    <span className="text-white/70 text-xs bg-white/10 backdrop-blur-sm px-2 py-1 rounded-md">
+                      View
+                    </span>
                   </div>
                 </motion.div>
               ))}
@@ -147,7 +183,7 @@ const Gallery = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

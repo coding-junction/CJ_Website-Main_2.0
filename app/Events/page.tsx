@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { sanity } from "@/lib/sanity";
 import EventsClient, { EventType } from "@/components/EventsClient";
+import { EventsHero } from "@/components/EventsClient";
 
 export const metadata: Metadata = {
   title: "Events | Coding Junction",
@@ -26,14 +27,13 @@ const query = `*[_type == "event"]{
   }
 }`;
 
-// Refresh data occasionally
 export const revalidate = 60;
 
 function EventsLoading() {
   return (
     <div className="flex flex-col items-center justify-center py-32 space-y-4">
-      <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-      <p className="text-gray-500 dark:text-gray-400 animate-pulse">Loading amazing events...</p>
+      <div className="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+      <p className="text-sm text-muted-foreground animate-pulse">Loading events...</p>
     </div>
   );
 }
@@ -56,12 +56,16 @@ async function EventsDataLoader() {
 
 export default function EventsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
-      <main className="flex-1 container mx-auto px-4 py-24">
+    <main className="min-h-screen bg-background text-foreground">
+      {/* Hero Section */}
+      <EventsHero />
+
+      {/* Content */}
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
         <Suspense fallback={<EventsLoading />}>
           <EventsDataLoader />
         </Suspense>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

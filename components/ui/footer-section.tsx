@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Facebook, Instagram, Linkedin, Moon, Send, Sun, Twitter } from "lucide-react"
+import { Instagram, Linkedin, Moon, Send, Sun, Github } from "lucide-react"
 
 import { useTheme } from "next-themes"
 
@@ -29,7 +29,9 @@ function Footerdemo() {
   const isDarkMode = theme === "dark"
 
   return (
-    <footer className="relative border-t bg-background text-foreground transition-colors duration-300">
+    <footer className="relative border-t border-transparent bg-background text-foreground transition-colors duration-300">
+      {/* Gradient top border */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="relative">
@@ -60,9 +62,6 @@ function Footerdemo() {
               <Link href="/" className="block transition-colors hover:text-primary">
                 Home
               </Link>
-              <Link href="/About" className="block transition-colors hover:text-primary">
-                About Us
-              </Link>
               <Link href="/Events" className="block transition-colors hover:text-primary">
                 Events
               </Link>
@@ -72,53 +71,35 @@ function Footerdemo() {
               <Link href="/Gallery" className="block transition-colors hover:text-primary">
                 Gallery
               </Link>
+              <Link href="/CommunityPartners" className="block transition-colors hover:text-primary">
+                Community Partners
+              </Link>
+              <Link href="/mobile-app" className="block transition-colors hover:text-primary">
+                Mobile App
+              </Link>
             </nav>
           </div>
           <div>
             <h3 className="mb-4 text-lg font-semibold">Contact Us</h3>
-            <address className="space-y-2 text-sm not-italic">
-              <p>UIT,BU</p>
+            <address className="space-y-2 text-sm not-italic text-muted-foreground">
+              <p className="text-foreground font-medium">UIT, Burdwan</p>
               <p>Purba Bardhaman, West Bengal, India</p>
-              <p>Phone: (123) 456-7890</p>
-              <p>Email: ranadebsaha@coding-junction.in </p>
+              <p>
+                Email:{" "}
+                <a href="mailto:ranadebsaha@coding-junction.in" className="text-foreground hover:text-indigo-500 transition-colors">
+                  ranadebsaha@coding-junction.in
+                </a>
+              </p>
             </address>
           </div>
           <div className="relative">
             <h3 className="mb-4 text-lg font-semibold">Follow Us</h3>
-            <div className="mb-6 flex space-x-4">
+            <div className="mb-6 flex space-x-3">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full" asChild>
-                      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                        <Facebook className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Follow us on Facebook</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full" asChild>
-                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        <Twitter className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Follow us on Twitter</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full" asChild>
-                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <Button variant="outline" size="icon" className="rounded-full hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white hover:border-pink-500 transition-all duration-300" asChild>
+                      <a href="https://www.instagram.com/codingjunction_uitbu/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <Instagram className="h-4 w-4" />
                       </a>
                     </Button>
@@ -131,7 +112,7 @@ function Footerdemo() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="rounded-full" asChild>
+                    <Button variant="outline" size="icon" className="rounded-full hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-300" asChild>
                       <a href="https://linkedin.com/company/coding-junction" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         <Linkedin className="h-4 w-4" />
                       </a>
@@ -142,22 +123,36 @@ function Footerdemo() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full hover:bg-gray-900 hover:text-white hover:border-gray-900 dark:hover:bg-white dark:hover:text-black transition-all duration-300" asChild>
+                      <a href="https://github.com/Coding-Junction" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                        <Github className="h-4 w-4" />
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Check out our GitHub</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="flex items-center space-x-2">
-              <Sun className="h-4 w-4" />
+              <Sun className="h-4 w-4 text-muted-foreground" />
               <Switch
                 id="dark-mode"
                 checked={mounted ? isDarkMode : true}
                 onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
               />
-              <Moon className="h-4 w-4" />
+              <Moon className="h-4 w-4 text-muted-foreground" />
               <Label htmlFor="dark-mode" className="sr-only">
                 Toggle dark mode
               </Label>
             </div>
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-center md:flex-row">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
             <Image
@@ -165,13 +160,13 @@ function Footerdemo() {
               alt="Coding Junction"
               width={140}
               height={45}
-              className="h-10 w-auto object-contain dark:invert"
+              className="h-10 w-auto object-contain dark:invert dark:brightness-200"
             />
             <p className="text-sm text-muted-foreground ml-2">
-              © 2026 All rights reserved.
+              &copy; {new Date().getFullYear()} All rights reserved.
             </p>
           </div>
-          <nav className="flex gap-4 text-sm">
+          <nav className="flex flex-wrap justify-center gap-4 text-sm">
             <Link href="/privacy" className="transition-colors hover:text-primary">
               Privacy Policy
             </Link>
